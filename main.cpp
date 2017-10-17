@@ -23,11 +23,37 @@ int main(){
  vector <vector <Pixel> > bmp;
  Pixel rgb;
 
- cout<<"Enter name of image file (must be a bpm)"<<endl;
- cin>>name;
- name += ".bmp";
- image.open(name);
+ double red;
+ double green;
+ double blue;
+ double gray;
+
+ do{
+    cout<<"Enter name of image file (must be a bpm)"<<endl;
+    cin>>name;
+    image.open(name);
+ }while (image.isImage() == false);
+
  bmp = image.toPixelMatrix();
  cout<<name<<" has been loaded. It is "<<bmp[0].size()<<" pixels wide and "<<bmp.size()<<" pixels high."<<endl;
+
+ for (int i = 0; i < bmp.size(); i++){
+    for (int o = 0; o < bmp[0].size(); o++){
+        rgb = bmp[i][o];
+        red = rgb.red;
+        green = rgb.green;
+        blue = rgb.blue;
+        gray = (red * 0.3) + (green * 0.59) + (blue * 0.11);
+        rgb.red = gray;
+        rgb.green = gray;
+        rgb.blue = gray;
+        bmp[i][o] = rgb;
+    }
+ }
+ 
+ image.fromPixelMatrix(bmp);
+ image.save("oldtimey.bmp");
+ cout<<"File successfuly converted into grayscale."<<endl<<" Saved file name is oldtimey."<<endl;
+
  return 0;
 }
